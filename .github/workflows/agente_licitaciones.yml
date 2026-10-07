@@ -23,12 +23,13 @@ jobs:
       - name: Instalar dependencias
         run: |
           python -m pip install --upgrade pip
-          if [ -f .github/workflows/requirements.txt ]; then pip install -r .github/workflows/requirements.txt; fi
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f .github/workflows/requirements.txt ]; then pip install -r .github/workflows/requirements.txt; fi
 
       - name: Ejecutar agente buscador
         env:
           MERCADO_PUBLICO_TICKET: ${{ secrets.MERCADO_PUBLICO_TICKET }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        run: python .github/workflows/buscadordelicitaciones.py
+        run: |
+          if [ -f buscadordelicitaciones.py ]; then python buscadordelicitaciones.py; else python .github/workflows/buscadordelicitaciones.py; fi
